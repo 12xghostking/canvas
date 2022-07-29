@@ -1,58 +1,51 @@
-#include<bits/stdc++.h>
-using namespace std;
+n = len(logs)
 
-// https://www.chegg.com/homework-help/questions-and-answers/intern-amazon-assigned-task-implement-sign-pages-amazon-dummy-website-three-sign-pages-api-q91066007
+answer = []
 
-#define int long long
-#define fast_io ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0)
+dict_var = {}
+for i in range(n):
+s = logs[i]
+inp = s.split(" ")
+type_var = inp[0]
+uname = inp[1]
+if (len(inp)==3):
+password = inp[2]
+else:
+password = ""
 
-int32_t main() {
-    fast_io;
-#ifndef ONLINE_JUDGE
-    freopen("input.txt", "r", stdin);
-    freopen("output.txt", "w", stdout);
-#endif
-    int t;
-    cin >> t;
-    while (t--) {
-        int n;
-        cin >> n;
-        string action, user, password ;
-        unordered_map<string, int> login;
-        unordered_map<string, string> regis;
+# Task of register
+if type_var == "register":
+    if uname in dict_var.keys():
+        answer.append("Username already exists")
+    else:
+        dict_var[uname] = [password,"0"]
+        answer.append("Registered successfully")
 
-        for (int i = 0; i < n; i++) {
-            cin >> action >> user;
-            if (action == "logout") {
-                if (login.count(user) == 0)
-                    cout << "Logout Unsuccessful\n";
-                else {
-                    login.erase(user);
-                    cout << "Logged Out Successfully\n";
-                }
-            }
-            else {
-                cin >> password;
-                if (action == "register") {
-                    if (regis.count(user) == 0) {
-                        regis[user] = password;
-                        cout << "Registered Successfully\n";
-                    }
-                    else {
-                        cout << "Username already exists\n";
-                    }
-                }
-                else {
-                    if (login.count(user) == 0 && regis[user] == password) {
-                        login[user] = 1;
-                        cout << "Logged In Successfully\n";
-                    }
-                    else {
-                        cout << "Login Unsuccessful\n";
-                    }
-                }
-            }
-        }
-    }
-    return 0;
-}
+# Task of Login
+elif type_var == "login":
+    if uname not in dict_var.keys():
+        answer.append("Login Unsuccessful")
+    else:
+        current = dict_var[uname]
+        if current[1] == "1" or current[0]!= password:
+            answer.append("Login Unsuccessful")
+        else:
+            dict_var[uname] = current
+            answer.append("Logged In Successful")
+
+# Task of Logout
+elif type_var == "logout":
+    if uname not in dict_var:
+        answer.append("Login Unsuccessful")
+    else:
+        current = dict_var[uname]
+        if current[1] == "0":
+            answer.append("Logout Unsuccessful")
+        else:
+            current = dict_var[uname]
+            if current[1] == "0":
+                answer.append("Logout Unsuccesful")
+            else:
+                dict_var[uname] = [current[0],"0"]
+                answer.append("Logout Successful")
+print(answer)
