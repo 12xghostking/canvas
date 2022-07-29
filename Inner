@@ -1,0 +1,58 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+// https://www.chegg.com/homework-help/questions-and-answers/intern-amazon-assigned-task-implement-sign-pages-amazon-dummy-website-three-sign-pages-api-q91066007
+
+#define int long long
+#define fast_io ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0)
+
+int32_t main() {
+    fast_io;
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#endif
+    int t;
+    cin >> t;
+    while (t--) {
+        int n;
+        cin >> n;
+        string action, user, password ;
+        unordered_map<string, int> login;
+        unordered_map<string, string> regis;
+
+        for (int i = 0; i < n; i++) {
+            cin >> action >> user;
+            if (action == "logout") {
+                if (login.count(user) == 0)
+                    cout << "Logout Unsuccessful\n";
+                else {
+                    login.erase(user);
+                    cout << "Logged Out Successfully\n";
+                }
+            }
+            else {
+                cin >> password;
+                if (action == "register") {
+                    if (regis.count(user) == 0) {
+                        regis[user] = password;
+                        cout << "Registered Successfully\n";
+                    }
+                    else {
+                        cout << "Username already exists\n";
+                    }
+                }
+                else {
+                    if (login.count(user) == 0 && regis[user] == password) {
+                        login[user] = 1;
+                        cout << "Logged In Successfully\n";
+                    }
+                    else {
+                        cout << "Login Unsuccessful\n";
+                    }
+                }
+            }
+        }
+    }
+    return 0;
+}
